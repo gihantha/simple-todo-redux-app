@@ -1,43 +1,53 @@
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {storeTask} from "./utilities/state/taskSlice.js";
 
 
-const App =() => {
+const App = () => {
 
     const [task, setTask] = useState('');
     const dispatch = useDispatch();
+    const alreadyAddTask = useSelector(state => state.alreadyAddedTask.tasks);
 
     const handleInput = (event) => {
         // console.log(event.target.value)
 
         setTask(event.target.value);
+
     }
 
+    console.log(alreadyAddTask);
     const addNewTask = () => {
-        dispatch(storeTask(
-            task
-        ))
+        dispatch(storeTask(task));
+
+        setTask('');
     }
 
-  return (
-      <>
-          <div>
-              <label htmlFor="small-input"
-                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task</label>
-              <input type="text" id="small-input" name="task" onChange={handleInput}
-                     className=" w-1/2 m-4 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-              <button type="button" name="add_task" onClick={addNewTask}
-                      className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Purple
-                  to Blue
-              </button>
+    return (
+        <>
+            <div>
+                <label htmlFor="small-input"
+                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task</label>
+                <input type="text" id="small-input" name="task" onChange={handleInput} value={task}
+                       className=" w-1/2 m-4 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                <button type="button" name="add_task" onClick={addNewTask}
+                        className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Purple
+                    to Blue
+                </button>
 
-          </div>
-          <div>
-              <h1>{task}</h1>
-          </div>
-      </>
-  )
+            </div>
+            <div>
+                <h1>
+                    {alreadyAddTask.length > 0 && alreadyAddTask.map((task) => (
+                    <div key={task.id}>
+                        <p className="inline mr-2">{task.task}</p>
+                        <button className="text-white bg-gradient-to-br from-green-600 to-yellow-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded text-sm px-2 py-` text-center me-2 mb-2">Remove</button>
+                    </div>
+                    ))}
+                </h1>
+            </div>
+        </>
+    )
 }
 
 export default App
