@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {storeTask} from "./utilities/state/taskSlice.js";
+import {removeTask, storeTask} from "./utilities/state/taskSlice.js";
 
 
 const App = () => {
@@ -39,9 +39,11 @@ const App = () => {
             <div>
                 <h1>
                     {alreadyAddTask.length > 0 && alreadyAddTask.map((task) => (
-                    <div key={task.id}>
+                    <div key={task.id} >
                         <p className="inline mr-2">{task.task}</p>
-                        <button className="text-white bg-gradient-to-br from-green-600 to-yellow-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded text-sm px-2 py-` text-center me-2 mb-2">Remove</button>
+                        <button
+                            onClick={() => dispatch(removeTask(task.id))}
+                            className="text-white bg-gradient-to-br from-green-600 to-yellow-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded text-sm px-2 py-` text-center me-2 mb-2">Remove</button>
                     </div>
                     ))}
                 </h1>
